@@ -1,7 +1,7 @@
 # Requirements — WhatsApp Service Planner Automation
 
 > **Status:** Draft v0.1 — for review
-> **Owner:** rcastro@xchangealpha.com
+> **Owner:** Vitor Castro
 > **Last updated:** 2026-06-11
 > **Audience:** company employees + engineering. Open to revision via PR.
 
