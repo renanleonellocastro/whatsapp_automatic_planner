@@ -8,16 +8,16 @@ from pydantic import ValidationError
 from wapp_planner.config.settings import Secrets, Settings
 from wapp_planner.domain.enums import Channel
 
-SECRET_KW = dict(
-    openai_api_key="sk-x",
-    whatsapp_access_token="t",
-    whatsapp_phone_number_id="pid",
-    whatsapp_verify_token="vt",
-    whatsapp_app_secret="as",
-    smtp_host="smtp.example.com",
-    smtp_username="u",
-    smtp_password="p",
-)
+SECRET_KW = {
+    "openai_api_key": "sk-x",
+    "whatsapp_access_token": "t",
+    "whatsapp_phone_number_id": "pid",
+    "whatsapp_verify_token": "vt",
+    "whatsapp_app_secret": "as",
+    "smtp_host": "smtp.example.com",
+    "smtp_username": "u",
+    "smtp_password": "p",
+}
 
 
 def test_settings_email_default_requires_owner_email() -> None:

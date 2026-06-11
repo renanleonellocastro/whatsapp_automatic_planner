@@ -33,10 +33,17 @@ testpaths = ["tests"]
 pythonpath = ["src"]
 addopts = "-ra"
 asyncio_mode = "auto"
+filterwarnings = [
+    # Starlette's TestClient emits this from inside the library, not our code.
+    "ignore:Using `httpx` with `starlette.testclient`",
+]
 
 [tool.coverage.run]
 branch = true
 source = ["wapp_planner"]
+# The process entrypoint wires real clients + runs the server; it is pragma'd
+# internally and excluded here (its wiring, build_app, is tested with fakes).
+omit = ["*/__main__.py"]
 
 [tool.coverage.report]
 # TST-01: 100% line + branch coverage of application code.
@@ -59,4 +66,10 @@ select = ["E", "F", "I", "UP", "B", "C4", "SIM"]
 [tool.mypy]
 python_version = "3.12"
 strict = true
+mypy_path = "src"
 packages = ["wapp_planner"]
+
+# These ship no type stubs; treat their imports as untyped.
+[[tool.mypy.overrides]]
+module = ["reportlab.*", "boto3.*", "botocore.*"]
+ignore_missing_imports = true

@@ -42,5 +42,16 @@ against fakes in tests — no real services needed.
 
 ## Status
 
-Early build. Implemented & 100%-tested: the request **state machine** and its
-domain vocabulary. See [`docs/ROADMAP.md`](docs/ROADMAP.md) for what's next.
+Phases 0–13 complete and 100%-tested (342 tests, 100% line+branch coverage,
+ruff + strict mypy clean). The whole system is wired and runnable: a **FastAPI**
+app (webhook verify/HMAC + inbound + `/hitl/action`) with an async
+aggregation-flush worker, the full pipeline (ingest → media→transcript →
+aggregate → classify → notify with **signed action links** → generate → **PDF +
+DOCX** → deliver → approve/revise → complete) over the persisted state machine,
+and **real provider adapters** behind the interfaces — OpenAI (LLM/transcription/
+vision), WhatsApp Graph, S3, SMTP/SES, ffmpeg. Run with `python -m wapp_planner`
+(needs credentials). End-to-end and HTTP integration tests run entirely on fakes.
+
+**Remaining (phases 14–15):** AWS deployment IaC (EC2/systemd/S3/Secrets
+Manager/CloudWatch) and observability/cost-caps/retention. See
+[`docs/ROADMAP.md`](docs/ROADMAP.md).

@@ -70,6 +70,10 @@ These were confirmed with the owner and constrain the design:
 | AD-5 | Language of generated docs | **English** | Both QUOTE and EXECUTION_PLAN are produced in English. |
 | AD-6 | Deployment target | **AWS EC2, 24/7** | Single long-running service. State persisted so restarts are safe. |
 | AD-7 | Implementation language | **Python 3.12** | With 100% unit-test line+branch coverage and integration tests (see §13). |
+| AD-8 | HITL response mechanics | **Signed action links** | Notifications carry HMAC-signed, expiring links/buttons (Confirm / Correct→intent / Reject / Approve / Revise). Unambiguous correlation to the Request; works on both email and WhatsApp. Revision free-text rides alongside the token at click time. Resolves §16 Q1. |
+| AD-9 | Tax handling in quotes | **Owner fills per quote** | The QUOTE template carries an editable/blank tax line the owner sets case-by-case before forwarding. Resolves §16 Q4. |
+| AD-10 | Branding | **Configurable placeholders** | PDF/DOCX templates pull logo / company details / quote terms from config (blank placeholders by default). Resolves §16 Q3. |
+| AD-11 | Spend caps & retention defaults | **No hard cap (cost logged); 90-day retention** | NFR-COST-01 logs per-request cost with no default ceiling (configurable); media/transcripts/documents retained 90 days by default. Resolves §16 Q5/Q6. |
 
 ---
 
@@ -321,12 +325,12 @@ implementation proceeds.
 
 ## 16. Open Questions
 
-1. **Owner response channel mechanics:** for HITL replies, do we prefer (a) email reply parsing, (b) WhatsApp reply to the system number, or (c) simple signed action links/commands? Affects FR-CNF-03 / FR-DLV-02.
-2. **WABA number:** is a dedicated business number available, or does onboarding the current number to WhatsApp Business need to be planned?
-3. **Branding assets:** logo / company details / quote terms for the templates.
-4. **Tax handling in quotes:** fixed rate, per-state, or owner fills in?
-5. **Spend caps:** desired per-request / daily ceilings (NFR-COST-01).
-6. **Retention period** for media/transcripts/documents (NFR-RETN-01).
+1. ~~**Owner response channel mechanics**~~ — **RESOLVED (AD-8):** signed action links.
+2. **WABA number** _(operational, non-blocking for code):_ a dedicated WhatsApp Business number must be registered with Meta before production cutover. To be provisioned in parallel.
+3. ~~**Branding assets**~~ — **RESOLVED (AD-10):** configurable placeholders; assets supplied later via config.
+4. ~~**Tax handling in quotes**~~ — **RESOLVED (AD-9):** owner fills per quote.
+5. ~~**Spend caps**~~ — **RESOLVED (AD-11):** no hard default cap; cost logged per request, configurable.
+6. ~~**Retention period**~~ — **RESOLVED (AD-11):** 90 days default, configurable.
 
 ---
 

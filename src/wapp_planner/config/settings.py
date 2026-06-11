@@ -52,12 +52,16 @@ class Settings(BaseSettings):
     retention_days: int = Field(default=90, gt=0)
     aws_region: str = "us-east-1"
 
+    # Public HTTPS base for action links + S3 bucket (DEP-02/03)
+    public_base_url: str = "http://localhost:8000"
+    s3_bucket: str = "wapp-planner-artifacts"
+    aggregation_id_prefix: str = "req"
+
     @model_validator(mode="after")
     def _validate_windows_and_contacts(self) -> Settings:
         if self.aggregation_max_duration_seconds < self.aggregation_inactivity_seconds:
             raise ValueError(
-                "aggregation_max_duration_seconds must be >= "
-                "aggregation_inactivity_seconds"
+                "aggregation_max_duration_seconds must be >= aggregation_inactivity_seconds"
             )
         for purpose, channel in (
             ("notify", self.notify_channel),
