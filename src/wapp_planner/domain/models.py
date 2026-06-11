@@ -57,6 +57,10 @@ class Message(BaseModel):
     order: int
     received_at: datetime = Field(default_factory=clock.now)
     text: str | None = None
+    caption: str | None = None
+    media_id: str | None = None
+    mime_type: str | None = None
+    filename: str | None = None
     raw_ref: str | None = None
     transcript: str | None = None
     processing_status: ProcessingStatus = ProcessingStatus.PENDING
@@ -91,8 +95,8 @@ class OwnerInteraction(BaseModel):
     id: str
     request_id: str
     kind: OwnerInteractionKind
-    channel: Channel
     decision: OwnerDecision
+    channel: Channel | None = None
     raw_response: str | None = None
     received_at: datetime = Field(default_factory=clock.now)
 
@@ -102,6 +106,7 @@ class Request(BaseModel):
 
     id: str
     client_id: str
+    client_name: str | None = None
     state: RequestState = RequestState.RECEIVED
     intent: Intent = Intent.NONE
     confidence: float | None = None

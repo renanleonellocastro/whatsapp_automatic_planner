@@ -62,9 +62,7 @@ def test_correction_is_a_self_loop() -> None:
 
 def test_classified_none_is_discarded() -> None:
     """NONE classification discards without owner involvement (FR-CLS-03)."""
-    assert (
-        next_state(RequestState.CLASSIFYING, Trigger.CLASSIFIED_NONE) is RequestState.DISCARDED
-    )
+    assert next_state(RequestState.CLASSIFYING, Trigger.CLASSIFIED_NONE) is RequestState.DISCARDED
 
 
 @pytest.mark.parametrize("state", [s for s in RequestState if s not in TERMINAL_STATES])
@@ -100,7 +98,7 @@ def test_is_terminal_matches_terminal_set(state: RequestState) -> None:
 def test_every_terminal_state_is_reachable() -> None:
     """Each terminal state is the target of at least one edge (TST-04)."""
     reachable = set(TRANSITIONS.values())
-    assert TERMINAL_STATES <= reachable
+    assert reachable >= TERMINAL_STATES
 
 
 def test_no_undeclared_edge_is_accepted() -> None:
